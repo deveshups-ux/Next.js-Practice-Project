@@ -13,6 +13,7 @@ if (!cached) {
 
 const connectDb = async () => {
   if (cached.conn) {
+    console.log("Cached DB Connected");
     return cached.conn;
   }
   if (!cached.promise) {
@@ -20,6 +21,7 @@ const connectDb = async () => {
   }
   try {
     cached.conn = await cached.promise;
+    console.log("DB Connected");
   } catch (error) {
     throw error;
   }
