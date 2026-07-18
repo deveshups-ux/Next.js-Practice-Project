@@ -5,7 +5,7 @@ interface Iuser {
   name: string;
   image: string;
   email: string;
-  password: string;
+  password?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -26,7 +26,7 @@ const userScheme = new mongoose.Schema<Iuser>(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   { timestamps: true },

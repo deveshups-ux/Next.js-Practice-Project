@@ -18,7 +18,7 @@ function Register() {
         email,
         password,
       });
-      console.log(result);
+      router.push("/login");
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +68,10 @@ function Register() {
             <span className="text-blue-400 hover:underline">login</span>
           </p>
 
-          <button className="w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors">
+          <button
+            className="w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors"
+            type="submit"
+          >
             Register
           </button>
         </form>
@@ -80,6 +83,7 @@ function Register() {
         </div>
 
         <button
+          type="button"
           className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-400 rounded-lg bg-white text-black hover:bg-gray-100 transition-colors"
           onClick={async () => {
             await signIn("google", {
