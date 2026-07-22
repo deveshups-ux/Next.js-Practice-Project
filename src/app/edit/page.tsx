@@ -3,13 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { CgProfile } from "react-icons/cg";
 import Image from "next/image";
+import axios from "axios";
 
 const page = () => {
-  let { data } = useSession();
+  const { data } = useSession();
   const [name, setName] = useState("");
   const [frontendImage, setFrontendImage] = useState("");
-  const [backendImage, setBackendImage] = useState("");
-  const imageInput = useRef<HTMLInputElement>();
+  const [backendImage, setBackendImage] = useState<File | null>(null);
+  const imageInput = useRef<HTMLInputElement>(null);
   console.log(data);
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +19,21 @@ const page = () => {
     const file = files[0];
     setBackendImage(file);
     setFrontendImage(URL.createObjectURL(file));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      if (backendImage) {
+        formData.append("file", backendImage);
+      }
+      const result = await axios.post("/api/edit", formData);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -32,7 +48,10 @@ const page = () => {
         <h1 className="text-2xl font-semibold text-center mb-2">
           Edit Profile
         </h1>
-        <form className="space-y-2 flex flex-col w-full items-center">
+        <form
+          className="space-y-2 flex flex-col w-full items-center"
+          onSubmit={handleSubmit}
+        >
           <div
             className="w-[100px] h-[100px] rounded-full border-2 flex justify-center items-center border-white transition-all hover:border-blue-500 text-white hover:text-blue-500 cursor-pointer overflow-hidden relative"
             onClick={() => imageInput.current?.click()}

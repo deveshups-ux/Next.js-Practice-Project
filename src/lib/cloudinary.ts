@@ -1,6 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import { error } from "console";
-import { resolve } from "path";
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
