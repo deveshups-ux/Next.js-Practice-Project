@@ -4,19 +4,21 @@ import User from "@/model/user.model";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     await connectDb();
     const session = await getServerSession(authOptions);
 
-    if (!session || !session.user.id || session.user.email) {
+    if (!session || !session.user.id || !session.user.email) {
       return NextResponse.json(
         { message: "user does not have session" },
         { status: 400 },
       );
     }
 
-    let user = await User.findOne(session.user.email).select("-password");
+    let user = await User.findOne({ email: session.user.email }).select(
+      "-password",
+    );
     if (!user) {
       return NextResponse.json({ message: "user not found" }, { status: 400 });
     }

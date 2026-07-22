@@ -4,10 +4,10 @@ import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { HiPencil } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
+import { userDataContext } from "@/context/UserContext";
 
 function Page() {
-  let { data } = useSession();
-  console.log(data);
+  let data = useContext(userDataContext);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,7 @@ function Page() {
           />
           {data.user?.image && (
             <div className="relative w-[200px] h-[200px] rounded-full border-2 border-white overflow-hidden">
-              <Image src={data.user.image} fill alt="userImage" />
+              <Image src={data.user?.image} fill alt="userImage" />
             </div>
           )}
           <h1 className="text-2xl font-semibold my-4">
