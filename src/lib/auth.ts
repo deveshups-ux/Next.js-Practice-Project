@@ -44,7 +44,7 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ account, user }) {
-      if (account?.provider === "goggle") {
+      if (account?.provider === "google") {
         await connectDb();
         let existUser = await User.findOne({ email: user?.email });
         if (!existUser) {
