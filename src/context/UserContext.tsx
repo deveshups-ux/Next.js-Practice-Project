@@ -22,8 +22,7 @@ export const userDataContext = React.createContext<userContextType | undefined>(
 
 const UserContext = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<userType | null>();
-  const session = useSession();
-
+  const { data: session, status } = useSession();
   const data = {
     user,
     setUser,
@@ -38,8 +37,10 @@ const UserContext = ({ children }: { children: React.ReactNode }) => {
         console.log(error);
       }
     }
-    getUser();
-  }, [session]);
+    if (status === "authenticated") {
+      getUser();
+    }
+  }, [status]);
 
   return (
     <userDataContext.Provider value={data}>{children}</userDataContext.Provider>
